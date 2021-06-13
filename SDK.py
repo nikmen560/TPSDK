@@ -21,10 +21,12 @@ def get_customers():
 		records = c.fetchall()
 		for row in records:
 			print(f'{row[0]} {row[1]} {row[2]}')
-		#	print('name: ', row[0])
-		#	print('surname: ', row[1])
-		#	print('address: ', row[2])
-		#	print('\n')
+
+def get_customer_by_name(name):
+	c = cursor()
+	with c.connection:
+		c.execute('SELECT * FROM customers WHERE name=?', (name,))
+		return c.fetchone()
 
 
 
