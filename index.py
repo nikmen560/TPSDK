@@ -12,6 +12,8 @@ while True:
     2. 
     3.
     4.
+    
+    0. завершить работу
     ''')
 
     user_input = int(input())
@@ -43,7 +45,17 @@ while True:
                         customer_new_address = input('введите новый адрес: \n')
                         print(SDK.update_customer(customer_obj, customer_new_name, customer_new_surname, customer_new_address))
 
-                    if user_input == 2:
+                    elif user_input == 2:
                         break
+            elif user_input == 2:
+                customer_name = input('введите имя: \n')
+                customer_surname = input('введите фамилию: \n')
+                customer_address = input('введите адрес: \n')
+                customer = Customer(customer_name, customer_surname, customer_address)
+                SDK.add_customer(customer)
+
             else:
                 break
+
+    elif user_input == 0:
+        break

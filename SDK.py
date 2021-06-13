@@ -51,7 +51,3 @@ def update_customer(customer, new_name, new_surname, new_address):
     c.connection.close()
     return customer
 
-def change(customer_name):
-	c = cursor()
-	with c.connection:
-		c.execute(''' ''')
