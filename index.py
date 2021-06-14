@@ -16,12 +16,11 @@ while True:
     4.
     0. завершить работу
     ''')
-
     user_input = int(input())
 
     if user_input == 1:
         while True:
-            print(SDK.get_customers())
+            SDK.get_customers()
 
             print('''
             1. изменить покупателя
@@ -34,7 +33,7 @@ while True:
 
             if user_input == 1:
                 while True:
-                    print(SDK.get_customers())
+                    SDK.get_customers()
                     customer_name = input('введите имя покупателя \n')
                     customer_obj = SDK.get_customer_by_name(customer_name)
 
@@ -44,9 +43,9 @@ while True:
                         customer_new_name = input('введите новое имя: \n')
                         customer_new_surname = input('введите новую фамилию: \n')
                         customer_new_address = input('введите новый адрес: \n')
-                        print(SDK.update_customer(customer_obj, customer_new_name, customer_new_surname,
-                                                  customer_new_address))
-
+                        SDK.update_customer(customer_obj, customer_new_name, customer_new_surname,
+                                            customer_new_address)
+                        break
                     elif user_input == 2:
                         break
 
@@ -87,14 +86,14 @@ while True:
             0. выход
                     ''')
             user_input = int(input())
-            if user_input == 1: # change product
+            if user_input == 1:  # change product
                 SDK.get_products()
                 product_name = input('введите название товара\n')
                 product_obj = SDK.get_product_by_name(product_name)
 
                 user_input = int(input('изменить товар? \n 1. да \n 2. нет \n'))
 
-                if user_input == 1: #change product realisation
+                if user_input == 1:  # change product realisation
                     product_new_name = input('введите новое название: \n')
                     product_new_price = input('введите новую цену: \n')
                     print(SDK.update_product(product_obj, product_new_name, product_new_price))
@@ -103,7 +102,7 @@ while True:
                 elif user_input == 2:
                     break
 
-            elif user_input == 2: # add new product
+            elif user_input == 2:  # add new product
                 product_name = input('введите имя: \n')
                 product_price = input('введите цену товара \n')
                 product = Product(product_name, product_price)

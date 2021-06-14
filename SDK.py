@@ -11,7 +11,7 @@ def add_customer(customer):
     c = cursor()
 
     with c.connection:
-        c.execute('INSERT INTO customers VALUES (?, ?, ?)', (customer.name, customer.surname, customer.address))
+        c.execute('INSERT INTO customers VALUES (?, ?, ?, NULL)', (customer.name, customer.surname, customer.address))
     c.connection.close()
     return c.lastrowid
 
@@ -21,11 +21,11 @@ def get_customers():
     customers = []
 
     with c.connection:
-        c.execute('SELECT rowid, * FROM customers')
+        c.execute('SELECT * FROM customers')
         records = c.fetchall()
 
         for row in records:
-            print(f' {row[0]} {row[1]} {row[2]}')
+            print(f'#{row[3]} {row[0]} {row[1]} город: {row[2]}')
 
     c.connection.close()
 
@@ -64,16 +64,17 @@ def update_customer(customer, new_name, new_surname, new_address):
 # 	customer_id INTEGER NOT NULL)
 #         ''')
 
-# def create_table():
-#     c = cursor()
-#     with c.connection:
-#         c.execute('''
-#         CREATE TABLE products (
-# 	name TEXT NOT NULL,
-# 	price REAL NOT NULL,
-# 	product_id INTEGER PRIMARY KEY)
-#         ''')
-#     c.connection.close()
+def create_table():
+    c = cursor()
+    with c.connection:
+        c.execute('''
+        CREATE TABLE customers (
+	name TEXT NOT NULL,
+	surname TEXT NOT NULL,
+	address TEXT NOT NULL,
+	customer_id INTEGER PRIMARY KEY)
+        ''')
+    c.connection.close()
 
 ##################################################### PRODUCTS
 def drop_table():
