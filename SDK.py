@@ -1,5 +1,6 @@
 import sqlite3
 from customer import Customer
+from product import Product
 
 
 def cursor():
@@ -20,11 +21,11 @@ def get_customers():
     customers = []
 
     with c.connection:
-        c.execute('SELECT * FROM customers')
+        c.execute('SELECT rowid, * FROM customers')
         records = c.fetchall()
 
         for row in records:
-            print(f'{row[0]} {row[1]} {row[2]}')
+            print(f' {row[0]} {row[1]} {row[2]}')
 
     c.connection.close()
 
@@ -63,3 +64,71 @@ def update_customer(customer, new_name, new_surname, new_address):
 # 	customer_id INTEGER NOT NULL)
 #         ''')
 
+# def create_table():
+#     c = cursor()
+#     with c.connection:
+#         c.execute('''
+#         CREATE TABLE products (
+# 	name TEXT NOT NULL,
+# 	price REAL NOT NULL,
+# 	product_id INTEGER PRIMARY KEY)
+#         ''')
+#     c.connection.close()
+
+##################################################### PRODUCTS
+def drop_table():
+    c = cursor()
+    with c.connection:
+        c.execute('DROP TABLE products')
+    c.connection.close()
+
+
+def add_product(product):
+    c = cursor()
+    with c.connection:
+        c.execute('INSERT INTO products VALUES (?,?,NULL)', (product.name, product.price))
+    c.connection.close()
+    return c.lastrowid
+
+
+def get_products():
+    c = cursor()
+    with c.connection:
+        c.execute('SELECT * FROM products')
+        records = c.fetchall()
+
+        for row in records:
+            print(f'#{row[2]} {row[0]} {row[1]} руб')
+
+    c.connection.close()
+
+
+def get_product_by_name(name):
+    c = cursor()
+    with c.connection:
+        c.execute('SELECT * FROM products WHERE name=?', (name,))
+    data = c.fetchone()
+
+    if not data:
+        return None
+
+    return Product(data[0], data[1])
+
+
+def update_product(product, new_name):
+    c = cursor()
+    with c.connection:
+        c.execute('''UPDATE products SET name=? WHERE name=?''', (new_name, product.name))
+    product = get_product_by_name(new_name)
+    c.connection.close()
+    return product
+
+
+def create_discount(discount):
+    c = cursor()
+
+    with c.connection:
+        c.execute('INSERT INTO discounts VALUES (?, ?, ?, ?)',
+                  (discount.discount_id, discount.percent, discount.product_id, discount.customer_id))
+    c.connection.close()
+    return c.lastrowid
