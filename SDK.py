@@ -51,3 +51,15 @@ def update_customer(customer, new_name, new_surname, new_address):
     c.connection.close()
     return customer
 
+
+# def create_table():
+#     c = cursor()
+#     with c.connection:
+#         c.execute('''
+#         CREATE TABLE discounts (
+# 	discount_id INTEGER PRIMARY KEY,
+# 	percent INTEGER NOT NULL,
+# 	product_id INTEGER NOT NULL,
+# 	customer_id INTEGER NOT NULL)
+#         ''')
+
