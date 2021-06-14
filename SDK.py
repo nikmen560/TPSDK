@@ -79,7 +79,7 @@ def update_customer(customer, new_name, new_surname, new_address):
 def drop_table():
     c = cursor()
     with c.connection:
-        c.execute('DROP TABLE products')
+        c.execute('DROP TABLE customers')
     c.connection.close()
 
 
