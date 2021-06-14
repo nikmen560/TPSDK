@@ -115,10 +115,10 @@ def get_product_by_name(name):
     return Product(data[0], data[1])
 
 
-def update_product(product, new_name):
+def update_product(product, new_name, new_price):
     c = cursor()
     with c.connection:
-        c.execute('''UPDATE products SET name=? WHERE name=?''', (new_name, product.name))
+        c.execute('''UPDATE products SET name=?, price=? WHERE name=? AND price=?''', (new_name, new_price, product.name, product.price))
     product = get_product_by_name(new_name)
     c.connection.close()
     return product

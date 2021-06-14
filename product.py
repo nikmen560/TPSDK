@@ -5,4 +5,4 @@ class Product:
         self.product_id = product_id
 
     def __str__(self):
-        return self.product_id + ' ' + self.name + 'price ' + self.price
+        return  str(self.product_id) + ' ' + self.name + 'price ' + str(self.price)

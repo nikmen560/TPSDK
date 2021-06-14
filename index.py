@@ -73,9 +73,6 @@ while True:
             if user_input == 1:
                 print('create new discount')
                 # percent = int(input('введите процент скидки \n '))
-
-                # TODO: create PRODUCT to continue
-
                 #################################
             elif user_input == 0:
                 break
@@ -97,9 +94,11 @@ while True:
 
                 user_input = int(input('изменить товар? \n 1. да \n 2. нет \n'))
 
-                if user_input == 1:
+                if user_input == 1: #change product realisation
                     product_new_name = input('введите новое название: \n')
-                    print(SDK.update_product(product_obj, product_new_name))
+                    product_new_price = input('введите новую цену: \n')
+                    print(SDK.update_product(product_obj, product_new_name, product_new_price))
+                    print('операция проведена успешно')
 
                 elif user_input == 2:
                     break
