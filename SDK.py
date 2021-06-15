@@ -210,10 +210,10 @@ def get_discounts_by_interval(customer_id, date_start, date_end):
     c.connection.close()
 
 
-def get_discounts_average(customer_id):
+def get_discounts_average(id, column_name):
     c = cursor()
     with c.connection:
-        c.execute('SELECT *, AVG(percent) FROM discounts WHERE customer_id=?', customer_id, )
+        c.execute(f'SELECT *, AVG(percent) FROM discounts WHERE {column_name}=?', id, )
         records = c.fetchall()
 
         for row in records:
@@ -224,13 +224,26 @@ def get_discounts_average(customer_id):
     c.connection.close()
 
 
-def get_customers_id():
+def get_ids(name_id, table_name):
     c = cursor()
     customers_id = []
     with c.connection:
-        c.execute('SELECT customer_id FROM customers')
+        c.execute(f'SELECT {name_id} FROM {table_name}')
         records = c.fetchall()
     return records
 
 
+def get_average_by_product(id, column_name):
+    c = cursor()
+    with c.connection:
+        c.execute(f'SELECT *, AVG(percent) FROM discounts WHERE {column_name}=?', (id,))
+        records = c.fetchall()
 
+        for row in records:
+            if row[0] is not None:
+                customer = get_customer_by_id(row[2])
+                product = get_product_by_id(row[1])
+                print(f'{customer.name} {customer.surname} г. {customer.address} скидка: {row[5]}%')
+                #TODO: 4/1 not working properly, show only for 1 man discount
+
+    c.connection.close()

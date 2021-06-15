@@ -147,17 +147,22 @@ while True:
 
     elif user_input == 4:
         while True:
-            customers = SDK.get_customers_id()
-            for customer in customers:
-                SDK.get_discounts_average(customer)
-
             print('''
 1. показать среднюю скидку для покупателей по определенному товару
-2.
+2. показать средний процент скидок у покупателей
             ''')
             user_input = int(input())
-            if user_input == 1: #show average discount for exact product
+            if user_input == 1:  # show average discount for exact product
                 SDK.get_products()
+                product_id = int(input('выберите товар \n'))
+                SDK.get_average_by_product(product_id, 'product_id')
 
+            elif user_input == 2:
+                customers = SDK.get_ids('customer_id', 'customers')
+                for customer in customers:
+                    SDK.get_discounts_average(customer, 'customer_id')
+
+            elif user_input == 0:
+                break
     elif user_input == 0:
         break
