@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 from customer import Customer
 from product import Product
 
@@ -58,21 +59,24 @@ def update_customer(customer, new_name, new_surname, new_address):
 #     with c.connection:
 #         c.execute('''
 #         CREATE TABLE discounts (
-# 	discount_id INTEGER PRIMARY KEY,
 # 	percent INTEGER NOT NULL,
 # 	product_id INTEGER NOT NULL,
-# 	customer_id INTEGER NOT NULL)
+# 	customer_id INTEGER NOT NULL,
+#   date
+# 	discount_id INTEGER PRIMARY KEY,
+# 	)
 #         ''')
 
 def create_table():
     c = cursor()
     with c.connection:
         c.execute('''
-        CREATE TABLE customers (
-	name TEXT NOT NULL,
-	surname TEXT NOT NULL,
-	address TEXT NOT NULL,
-	customer_id INTEGER PRIMARY KEY)
+        CREATE TABLE discounts (
+	percent INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	customer_id INTEGER NOT NULL,
+	date timestamp,
+	 discount_id INTEGER PRIMARY KEY)
         ''')
     c.connection.close()
 
@@ -125,11 +129,34 @@ def update_product(product, new_name, new_price):
     return product
 
 
-def create_discount(discount):
+def add_discount(discount):
     c = cursor()
 
     with c.connection:
-        c.execute('INSERT INTO discounts VALUES (?, ?, ?, ?)',
-                  (discount.discount_id, discount.percent, discount.product_id, discount.customer_id))
+        c.execute('INSERT INTO discounts VALUES (?, ?, ?, ?, NULL)',
+                  (discount.percent, discount.product_id, discount.customer_id, discount.date))
     c.connection.close()
-    return c.lastrowid
+
+
+def get_customer_by_id(id):
+    c = cursor()
+
+    with c.connection:
+        c.execute('SELECT * FROM products WHERE customer_id=?', (id,))
+        data = c.fetchone()
+
+        if not data:
+            return None
+
+        return Customer(data[0], data[1], data[2])
+
+def get_discounts():
+    c = cursor()
+    with c.connection:
+        c.execute('SELECT * FROM discounts')
+        records = c.fetchall()
+
+        for row in records:
+            print(f'#{row[4]} {row[0]} {row[1]}')
+
+    c.connection.close()

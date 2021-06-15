@@ -1,13 +1,15 @@
 from customer import Customer
 from product import Product
 from discount import Discount
+from datetime import datetime
 import SDK
 
-# customer = Customer("dagestan", "priorov", "moskov")
 
-# print(SDK.get_customer_by_name("NEWNAME"))
-# print(SDK.update_customer(customer, "Vasya"))
+def convert_str_to_date(str_date):
+    d = datetime.strptime(str_date, '%d/%m/%y')
+    return d.date()
 
+# TODO: create only date type
 while True:
     print('''
     1. информация о покупателях
@@ -70,9 +72,20 @@ while True:
 
             user_input = int(input())
             if user_input == 1:
-                print('create new discount')
-                # percent = int(input('введите процент скидки \n '))
-                #################################
+                print('create new discount') #TODO: SHOW ALL DISCOUNTS
+                percent = int(input('введите процент скидки \n '))
+                SDK.get_products()
+                product_id = int(input('выберите товар к которому будет применена скидка \n'))
+                SDK.get_customers()
+                customer_id = int(input('выберите для кого будет применяться скидка ?\n '))
+                date = str(input('введите дату в формате dd/mm/yyyy'))
+                date = convert_str_to_date(date)  # TODO: implement date var into object
+                # TODO: create show methods for discount, like Product Discount for Kent HD
+                discount = Discount(percent, product_id, customer_id, date)
+                SDK.add_discount(discount)
+
+
+
             elif user_input == 0:
                 break
 
