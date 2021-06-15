@@ -80,6 +80,7 @@ def create_table():
         ''')
     c.connection.close()
 
+
 ##################################################### PRODUCTS
 def drop_table():
     c = cursor()
@@ -123,7 +124,8 @@ def get_product_by_name(name):
 def update_product(product, new_name, new_price):
     c = cursor()
     with c.connection:
-        c.execute('''UPDATE products SET name=?, price=? WHERE name=? AND price=?''', (new_name, new_price, product.name, product.price))
+        c.execute('''UPDATE products SET name=?, price=? WHERE name=? AND price=?''',
+                  (new_name, new_price, product.name, product.price))
     product = get_product_by_name(new_name)
     c.connection.close()
     return product
@@ -150,6 +152,7 @@ def get_customer_by_id(id):
 
         return Customer(data[0], data[1], data[2])
 
+
 def get_product_by_id(id):
     c = cursor()
 
@@ -161,6 +164,7 @@ def get_product_by_id(id):
             return None
 
         return Product(data[0], data[1])
+
 
 def get_discounts():
     c = cursor()
@@ -190,10 +194,12 @@ def get_discount_by_customer_id(customer_id):
 
     c.connection.close()
 
+
 def get_discounts_by_interval(customer_id, date_start, date_end):
     c = cursor()
     with c.connection:
-        c.execute('SELECT * FROM discounts WHERE customer_id=? AND date BETWEEN ? AND ?', (customer_id, date_start, date_end))
+        c.execute('SELECT * FROM discounts WHERE customer_id=? AND date BETWEEN ? AND ?',
+                  (customer_id, date_start, date_end))
         records = c.fetchall()
 
         for row in records:
@@ -202,3 +208,29 @@ def get_discounts_by_interval(customer_id, date_start, date_end):
             print(f'товар: {product} скидка: {row[0]}% начало действия скидки: {row[3]}')
 
     c.connection.close()
+
+
+def get_discounts_average(customer_id):
+    c = cursor()
+    with c.connection:
+        c.execute('SELECT *, AVG(percent) FROM discounts WHERE customer_id=?', customer_id, )
+        records = c.fetchall()
+
+        for row in records:
+            if row[0] is not None:
+                customer = get_customer_by_id(row[2])
+                print(f'покупатель: {customer.name} {customer.surname} г. {customer.address} средняя скидка на товары: {row[5]}%')
+
+    c.connection.close()
+
+
+def get_customers_id():
+    c = cursor()
+    customers_id = []
+    with c.connection:
+        c.execute('SELECT customer_id FROM customers')
+        records = c.fetchall()
+    return records
+
+
+

@@ -15,7 +15,8 @@ while True:
     1. информация о покупателях
     2. скидки
     3. товары
-    4.
+    4. средний процент скидки у покупателей
+    
     0. завершить работу
     ''')
     user_input = int(input())
@@ -25,10 +26,10 @@ while True:
             SDK.get_customers()
 
             print('''
-            1. изменить покупателя
-            2. добавить покупателя
+1. изменить покупателя
+2. добавить покупателя
             
-            0. выход
+0. выход
             ''')
 
             user_input = int(input())
@@ -103,7 +104,6 @@ while True:
 
                 except ValueError:
                     print('вы ввели не число, необходимо ввести число')
-                    continue
 
 
             elif user_input == 0:
@@ -113,10 +113,10 @@ while True:
         while True:
             SDK.get_products()
             print('''
-            1. изменить товар 
-            2. добавить товар 
+1. изменить товар 
+2. добавить товар 
 
-            0. выход
+0. выход
                     ''')
             user_input = int(input())
             if user_input == 1:  # change product
@@ -144,6 +144,20 @@ while True:
 
             elif user_input == 0:
                 break
+
+    elif user_input == 4:
+        while True:
+            customers = SDK.get_customers_id()
+            for customer in customers:
+                SDK.get_discounts_average(customer)
+
+            print('''
+1. показать среднюю скидку для покупателей по определенному товару
+2.
+            ''')
+            user_input = int(input())
+            if user_input == 1: #show average discount for exact product
+                SDK.get_products()
 
     elif user_input == 0:
         break
