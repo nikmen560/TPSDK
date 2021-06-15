@@ -9,7 +9,7 @@ def convert_str_to_date(str_date):
     d = datetime.strptime(str_date, '%d/%m/%y')
     return d.date()
 
-# TODO: create only date type
+
 while True:
     print('''
     1. информация о покупателях
@@ -67,7 +67,8 @@ while True:
             print('''
 1. создать новую скидку
 2. показать список скидок в хронологическом порядке
-
+3. список скидок покупателя за определнный интервал дат
+4.
 0. выход
                     ''')
 
@@ -86,11 +87,25 @@ while True:
                 SDK.add_discount(discount)
 
             elif user_input == 2:
-                print('chronological')
                 SDK.get_customers()
                 customer_id = int(input('выберите покупателя:\n '))
                 SDK.get_discount_by_customer_id(customer_id)
-                # sorted list by date
+
+            elif user_input == 3:
+                try:
+                    SDK.get_customers()
+                    customer_id = int(input('выберете покупателя:\n'))
+                    date_start = str(input('введите дату начала интервала в формате дд/мм/гг \n'))
+                    date_start = convert_str_to_date(date_start)
+                    date_end = str(input('введите дату начала интервала в формате дд/мм/гг \n'))
+                    date_end = convert_str_to_date(date_end)
+                    SDK.get_discounts_by_interval(customer_id, date_start, date_end)
+
+                except ValueError:
+                    print('вы ввели не число, необходимо ввести число')
+                    continue
+
+
             elif user_input == 0:
                 break
 
