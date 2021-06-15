@@ -174,3 +174,18 @@ def get_discounts():
             print(f'#{row[4]} товар: {product} скидка: {row[0]}% для покупателя: {customer} дата начала: {row[3]}')
 
     c.connection.close()
+
+
+def get_discount_by_customer_id(customer_id):
+    c = cursor()
+    with c.connection:
+        c.execute('SELECT * FROM discounts WHERE customer_id=? ORDER BY date ASC', (customer_id,))
+        # c.execute('SELECT * FROM discounts ORDER by date(date) DESC')
+        records = c.fetchall()
+
+        for row in records:
+            customer = get_customer_by_id(row[2])
+            product = get_product_by_id(row[1])
+            print(f'товар: {product} скидка: {row[0]}% начало действия скидки: {row[3]}')
+
+    c.connection.close()

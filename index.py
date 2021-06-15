@@ -63,10 +63,10 @@ while True:
 
     elif user_input == 2:
         while True:
-            SDK.get_discounts()
+
             print('''
 1. создать новую скидку
-2. показать список оценок
+2. показать список скидок в хронологическом порядке
 
 0. выход
                     ''')
@@ -79,14 +79,18 @@ while True:
                 product_id = int(input('выберите товар к которому будет применена скидка \n'))
                 SDK.get_customers()
                 customer_id = int(input('выберите для кого будет применяться скидка ?\n '))
-                date = str(input('введите дату в формате dd/mm/yyyy'))
+                date = str(input('введите дату в формате dd/mm/yy'))
                 date = convert_str_to_date(date)
 
                 discount = Discount(percent, product_id, customer_id, date)
                 SDK.add_discount(discount)
 
-
-
+            elif user_input == 2:
+                print('chronological')
+                SDK.get_customers()
+                customer_id = int(input('выберите покупателя:\n '))
+                SDK.get_discount_by_customer_id(customer_id)
+                # sorted list by date
             elif user_input == 0:
                 break
 

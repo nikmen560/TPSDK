@@ -4,4 +4,4 @@ class Product:
         self.price = price
 
     def __str__(self):
-        return self.name + ' цена: ' + str(self.price)
+        return f'"{self.name}" цена:  {str(self.price)} руб'
