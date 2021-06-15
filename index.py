@@ -63,24 +63,25 @@ while True:
 
     elif user_input == 2:
         while True:
+            SDK.get_discounts()
             print('''
-                    1. создать новую скидку
-                    2. 
+1. создать новую скидку
+2. показать список оценок
 
-                    0. выход
+0. выход
                     ''')
 
             user_input = int(input())
             if user_input == 1:
-                print('create new discount') #TODO: SHOW ALL DISCOUNTS
+                print('create new discount')
                 percent = int(input('введите процент скидки \n '))
                 SDK.get_products()
                 product_id = int(input('выберите товар к которому будет применена скидка \n'))
                 SDK.get_customers()
                 customer_id = int(input('выберите для кого будет применяться скидка ?\n '))
                 date = str(input('введите дату в формате dd/mm/yyyy'))
-                date = convert_str_to_date(date)  # TODO: implement date var into object
-                # TODO: create show methods for discount, like Product Discount for Kent HD
+                date = convert_str_to_date(date)
+
                 discount = Discount(percent, product_id, customer_id, date)
                 SDK.add_discount(discount)
 

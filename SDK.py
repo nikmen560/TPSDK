@@ -142,13 +142,25 @@ def get_customer_by_id(id):
     c = cursor()
 
     with c.connection:
-        c.execute('SELECT * FROM products WHERE customer_id=?', (id,))
+        c.execute('SELECT name, surname, address FROM customers WHERE customer_id=?', (id,))
         data = c.fetchone()
 
         if not data:
             return None
 
         return Customer(data[0], data[1], data[2])
+
+def get_product_by_id(id):
+    c = cursor()
+
+    with c.connection:
+        c.execute('SELECT name, price FROM products WHERE product_id=?', (id,))
+        data = c.fetchone()
+
+        if not data:
+            return None
+
+        return Product(data[0], data[1])
 
 def get_discounts():
     c = cursor()
@@ -157,6 +169,8 @@ def get_discounts():
         records = c.fetchall()
 
         for row in records:
-            print(f'#{row[4]} {row[0]} {row[1]}')
+            customer = get_customer_by_id(row[2])
+            product = get_product_by_id(row[1])
+            print(f'#{row[4]} товар: {product} скидка: {row[0]}% для покупателя: {customer} дата начала: {row[3]}')
 
     c.connection.close()
