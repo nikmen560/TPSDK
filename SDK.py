@@ -235,15 +235,19 @@ def get_ids(name_id, table_name):
 
 def get_average_by_product(id, column_name):
     c = cursor()
+    customer_length = get_ids('customer_id', 'customers')
+    records = []
     with c.connection:
-        c.execute(f'SELECT *, AVG(percent) FROM discounts WHERE {column_name}=?', (id,))
-        records = c.fetchall()
-
+        for customer in customer_length:
+            c.execute(f'SELECT customer_id, AVG(percent) FROM discounts WHERE product_id=? AND customer_id =?', (id, customer[0]))
+            records.append(c.fetchall())
         for row in records:
-            if row[0] is not None:
-                customer = get_customer_by_id(row[2])
-                product = get_product_by_id(row[1])
-                print(f'{customer.name} {customer.surname} г. {customer.address} скидка: {row[5]}%')
-                #TODO: 4/1 not working properly, show only for 1 man discount
+            for rowing in row:
+                if rowing[0] is not None:
+                    customer = get_customer_by_id(rowing[0])
+                    # product = get_product_by_id(row[1])
+                    print(f'{customer.name} {customer.surname} г. {customer.address} средняя скидка: {rowing[1]}%')
+                    # print(f'{customer.name} {rowing[0]}')
+                    #TODO: 4/1 not working properly, show only for 1 man discount
 
     c.connection.close()

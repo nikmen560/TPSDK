@@ -150,6 +150,7 @@ while True:
             print('''
 1. показать среднюю скидку для покупателей по определенному товару
 2. показать средний процент скидок у покупателей
+0. выход
             ''')
             user_input = int(input())
             if user_input == 1:  # show average discount for exact product
