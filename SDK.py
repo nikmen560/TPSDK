@@ -248,6 +248,5 @@ def get_average_by_product(id, column_name):
                     # product = get_product_by_id(row[1])
                     print(f'{customer.name} {customer.surname} г. {customer.address} средняя скидка: {rowing[1]}%')
                     # print(f'{customer.name} {rowing[0]}')
-                    #TODO: 4/1 not working properly, show only for 1 man discount
 
     c.connection.close()
