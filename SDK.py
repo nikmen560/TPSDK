@@ -152,18 +152,6 @@ def add_discount(discount):
     c.connection.close()
 
 
-def get_customer_by_id(id):
-    c = cursor()
-
-    with c.connection:
-        c.execute('SELECT name, surname, address FROM customers WHERE customer_id=?', (id,))
-        data = c.fetchone()
-
-        if not data:
-            return None
-
-        return Customer(data[0], data[1], data[2])
-
 
 def get_product_by_id(id):
     c = cursor()
@@ -257,8 +245,5 @@ def get_average_by_product(id, column_name):
             for rowing in row:
                 if rowing[0] is not None:
                     customer = get_customer_by_id(rowing[0])
-                    # product = get_product_by_id(row[1])
                     print(f'{customer.name} {customer.surname} г. {customer.address} средняя скидка: {rowing[1]}%')
-                    # print(f'{customer.name} {rowing[0]}')
-
     c.connection.close()
