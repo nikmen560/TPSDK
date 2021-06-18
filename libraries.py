@@ -17,7 +17,6 @@ def convert_str_to_date(message):
             d = datetime.strptime(str_date, '%d/%m/%y')
         except ValueError:
             print("Вы ввели неверный формат даты. Необходимо ввести: дд/мм/гг. Попробуйте снова.")
-         #TODO: str var and d var
 
         else:
             return d.date()
