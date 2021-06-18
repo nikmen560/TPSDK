@@ -31,10 +31,10 @@ def get_customers():
     c.connection.close()
 
 
-def get_customer_by_name(name):
+def get_customer_by_id(customer_id):
     c = cursor()
     with c.connection:
-        c.execute('SELECT * FROM customers WHERE name=?', (name,))
+        c.execute('SELECT * FROM customers WHERE customer_id=?', (customer_id,))
     data = c.fetchone()
 
     if not data:
@@ -49,7 +49,7 @@ def update_customer(customer, new_name, new_surname, new_address):
         c.execute('''UPDATE customers SET name=?, surname=?,
 		  		 address=? WHERE name=? AND surname=? AND address=?''',
                   (new_name, new_surname, new_address, customer.name, customer.surname, customer.address))
-    customer = get_customer_by_name(new_name)
+    customer = get_customer_by_id(new_name)
     c.connection.close()
     return customer
 
@@ -108,6 +108,18 @@ def get_products():
 
     c.connection.close()
 
+def get_length_by_id(column_name):
+    c = cursor()
+    data = []
+    with c.connection:
+        c.execute(f'SELECT {column_name} FROM products')
+        records = c.fetchall()
+
+        for row in records:
+            data.append(row[0])
+
+    c.connection.close()
+    return len(data)
 
 def get_product_by_name(name):
     c = cursor()

@@ -2,18 +2,9 @@ from customer import Customer
 from product import Product
 from discount import Discount
 from datetime import datetime
+from libraries import *
 import SDK
 
-def user_input_int_in_range(start, end):
-    while True:
-        try:
-            n = int(input("Введите номер: "))
-        except ValueError:
-            print("Вы ввели не число. Попробуйте снова.")
-        else:
-            if start <= n <= end:
-                return n
-            print(f'Вам нужно ввести номер от {start} до {end}')
 
 # def user_input_return_check():
 #     while True:
@@ -27,10 +18,10 @@ def user_input_int_in_range(start, end):
 #             print(f'Вам нужно ввести номер от {start} до {end}')
 #TODO: func for None return
 
-def convert_str_to_date(str_date):
-    d = datetime.strptime(str_date, '%d/%m/%y')
-    return d.date()
-
+# def convert_str_to_date(str_date):
+#     d = datetime.strptime(str_date, '%d/%m/%y')
+#     return d.date()
+#
 
 while True:
     print('''
@@ -41,7 +32,7 @@ while True:
     
     0. завершить работу
     ''')
-    user_input = user_input_int_in_range(0, 4)
+    user_input = user_input_int_in_range(0, 4, 'выберите: ')
     if user_input == 1:
         while True:
             SDK.get_customers()
@@ -53,16 +44,15 @@ while True:
 0. выход
             ''')
 
-            user_input = user_input_int_in_range(0, 2)
+            user_input = user_input_int_in_range(0, 2, 'выберите: ')
 
             if user_input == 1:
                 while True:
                     SDK.get_customers()
-                    customer_name = input('введите имя покупателя \n')
-                    customer_obj = SDK.get_customer_by_name(customer_name)
+                    customer_id = user_input_int_in_range(1, len(SDK.get_ids('customer_id', 'customers')), 'введите номер покупателя \n')
+                    customer_obj = SDK.get_customer_by_id(customer_id)
 
-                    print('изменить покупателя?\n 1. да\n2. нет')
-                    user_input = user_input_int_in_range(1, 2)
+                    user_input = user_input_int_in_range(1, 2, 'изменить покупателя?\n 1. да\n2. нет \n')
 
                     if user_input == 1:
                         customer_new_name = input('введите новое имя: \n')
@@ -89,37 +79,37 @@ while True:
 
             print('''
 1. создать новую скидку
-2. показать список скидок в хронологическом порядке
+2. показать список скидок в хронологическом порядке отдельного покупателя
 3. список скидок покупателя за определнный интервал дат
 0. выход
                     ''')
 
-            user_input = user_input_int_in_range(0, 3)
+            user_input = user_input_int_in_range(0, 3, 'выберете: ')
 
             if user_input == 1:
-                percent = int(input('введите процент скидки \n '))
+                percent = user_input_int_in_range(1, 100, 'введите процент скидки: \n')
                 SDK.get_products()
-                product_id = int(input('выберите товар к которому будет применена скидка \n'))
+
+                product_id = user_input_int_in_range(1, len(SDK.get_ids('product_id', 'products')), 'выберите товар к которому будет применена скидка \n')
+
                 SDK.get_customers()
-                customer_id = int(input('выберите для кого будет применяться скидка ?\n '))
-                date = str(input('введите дату в формате dd/mm/yy'))
-                date = convert_str_to_date(date)
+                customer_id = user_input_int_in_range(1, len(SDK.get_ids('customer_id', 'customers')), 'выберите для кого будет применяться скидка ?\n')
+                # date = str(input('введите дату в формате dd/mm/yy'))
+                date = convert_str_to_date('введите дату начала действия скидки в формате: дд/мм/гг ')
 
                 discount = Discount(percent, product_id, customer_id, date)
                 SDK.add_discount(discount)
 
             elif user_input == 2:
                 SDK.get_customers()
-                customer_id = int(input('выберите покупателя:\n '))
+                customer_id = user_input_int_in_range(1, len(SDK.get_ids('customer_id', 'customers')), 'выберите покупателя:\n')
                 SDK.get_discount_by_customer_id(customer_id)
 
             elif user_input == 3:
                 SDK.get_customers()
-                customer_id = int(input('выберете покупателя:\n'))
-                date_start = str(input('введите дату начала интервала в формате дд/мм/гг \n'))
-                date_start = convert_str_to_date(date_start)
-                date_end = str(input('введите дату начала интервала в формате дд/мм/гг \n'))
-                date_end = convert_str_to_date(date_end)
+                customer_id = user_input_int_in_range(1, len(SDK.get_ids('customer_id', 'customers')), 'выберите покупателя:\n')
+                date_start = convert_str_to_date('введите дату начала интервала в формате дд/мм/гг \n')
+                date_end = convert_str_to_date('введите дату конца интервала в формате дд/мм/гг \n')
                 SDK.get_discounts_by_interval(customer_id, date_start, date_end)
 
             elif user_input == 0:
@@ -135,13 +125,11 @@ while True:
 0. выход
                     ''')
 
-            user_input = int(input())
+            user_input = user_input_int_in_range(0, 2, 'выберите: ')
             if user_input == 1:  # change product
                 SDK.get_products()
-                product_name = input('введите название товара\n')
-#TODO: create STR check handler in func
-                product_obj = SDK.get_product_by_name(product_name)
-#TODO: create none return check, create func for it
+                product_id = user_input_int_in_range(1, len(SDK.get_ids('product_id', 'products')), 'введите номер товара\n')
+                product_obj = SDK.get_product_by_id(product_id)
                 user_input = int(input('изменить товар? \n 1. да \n 2. нет \n'))
 
                 if user_input == 1:  # change product realisation
@@ -173,7 +161,7 @@ while True:
             user_input = int(input())
             if user_input == 1:  # show average discount for exact product
                 SDK.get_products()
-                product_id = int(input('выберите товар \n'))
+                product_id = user_input_int_in_range(1, len(SDK.get_ids('product_id', 'products')), 'выберете товар \n')
                 SDK.get_average_by_product(product_id, 'product_id')
 
             elif user_input == 2:
