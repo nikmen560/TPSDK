@@ -5,32 +5,14 @@ from datetime import datetime
 from libraries import *
 import SDK
 
-
-# def user_input_return_check():
-#     while True:
-#         try:
-#             n = int(input())
-#         except ValueError:
-#             print("Вы ввели не число. Попробуйте снова.")
-#         else:
-#             if start <= n <= end:
-#                 return n
-#             print(f'Вам нужно ввести номер от {start} до {end}')
-#TODO: func for None return
-
-# def convert_str_to_date(str_date):
-#     d = datetime.strptime(str_date, '%d/%m/%y')
-#     return d.date()
-#
-
 while True:
     print('''
-    1. информация о покупателях
-    2. скидки
-    3. товары
-    4. средний процент скидки у покупателей
+1. покупатели
+2. скидки
+3. товары
+4. средний процент скидок 
     
-    0. завершить работу
+0. завершить работу
     ''')
     user_input = user_input_int_in_range(0, 4, 'выберите: ')
     if user_input == 1:
@@ -52,7 +34,7 @@ while True:
                     customer_id = user_input_int_in_range(1, len(SDK.get_ids('customer_id', 'customers')), 'введите номер покупателя \n')
                     customer_obj = SDK.get_customer_by_id(customer_id)
 
-                    user_input = user_input_int_in_range(1, 2, 'изменить покупателя?\n 1. да\n2. нет \n')
+                    user_input = user_input_int_in_range(1, 2, 'изменить покупателя?\n1. да\n2. нет \n')
 
                     if user_input == 1:
                         customer_new_name = input('введите новое имя: \n')
@@ -154,8 +136,8 @@ while True:
     elif user_input == 4:
         while True:
             print('''
-1. показать среднюю скидку для покупателей по определенному товару
-2. показать средний процент скидок у покупателей
+1. показать среднюю скидку среди покупателей по определенному товару
+2. показать средний процент скидок на товары среди покупателей
 0. выход
             ''')
             user_input = int(input())

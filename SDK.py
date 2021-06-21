@@ -53,42 +53,6 @@ def update_customer(customer, new_name, new_surname, new_address):
     c.connection.close()
     return customer
 
-
-# def create_table():
-#     c = cursor()
-#     with c.connection:
-#         c.execute('''
-#         CREATE TABLE discounts (
-# 	percent INTEGER NOT NULL,
-# 	product_id INTEGER NOT NULL,
-# 	customer_id INTEGER NOT NULL,
-#   date
-# 	discount_id INTEGER PRIMARY KEY,
-# 	)
-#         ''')
-
-def create_table():
-    c = cursor()
-    with c.connection:
-        c.execute('''
-        CREATE TABLE discounts (
-	percent INTEGER NOT NULL,
-	product_id INTEGER NOT NULL,
-	customer_id INTEGER NOT NULL,
-	date timestamp,
-	 discount_id INTEGER PRIMARY KEY)
-        ''')
-    c.connection.close()
-
-
-##################################################### PRODUCTS
-def drop_table():
-    c = cursor()
-    with c.connection:
-        c.execute('DROP TABLE customers')
-    c.connection.close()
-
-
 def add_product(product):
     c = cursor()
     with c.connection:
@@ -150,7 +114,6 @@ def add_discount(discount):
         c.execute('INSERT INTO discounts VALUES (?, ?, ?, ?, NULL)',
                   (discount.percent, discount.product_id, discount.customer_id, discount.date))
     c.connection.close()
-
 
 
 def get_product_by_id(id):
